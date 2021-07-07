@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_bold"
         android:inputType="number"
-        android:text="@string/four_text"
+        android:hint="@string/four_text"
         android:textColor="@color/teal_700"
         android:textSize="64sp"
         android:gravity="center_horizontal"
