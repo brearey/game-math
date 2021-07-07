@@ -1,6 +1,7 @@
 package ru.oktemsec.gamemath
 
 import android.graphics.Color
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,6 +13,8 @@ import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
     var answer:Int = 0
+    private lateinit var errorSound:MediaPlayer
+    private lateinit var successSound:MediaPlayer
     lateinit var messageText:TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +22,10 @@ class MainActivity : AppCompatActivity() {
         messageText = findViewById(R.id.message_text)
         val taskText:TextView = findViewById(R.id.math_task)
         val answerET:EditText = findViewById(R.id.answer_et)
+
+        //Sounds
+        errorSound = MediaPlayer.create(this, R.raw.error)
+        successSound = MediaPlayer.create(this, R.raw.success)
 
         messageText.text = "Попробуйте вычислить:"
 
@@ -45,17 +52,19 @@ class MainActivity : AppCompatActivity() {
         val firstNumber:Int
         val secondNumber:Int
         val operator:String = listOf("+", "-", "*")[Random.nextInt(1, 3)]
-        if (operator == "*") {
-            firstNumber = Random.nextInt(1,9)
-            secondNumber = Random.nextInt(1,9)
-        }
-        else if (operator == "-") {
-            firstNumber = Random.nextInt(24,48)
-            secondNumber = Random.nextInt(1,23)
-        }
-        else {
-            firstNumber = Random.nextInt(1,48)
-            secondNumber = Random.nextInt(1,48)
+        when (operator) {
+            "*" -> {
+                firstNumber = Random.nextInt(1,9)
+                secondNumber = Random.nextInt(1,9)
+            }
+            "-" -> {
+                firstNumber = Random.nextInt(24,48)
+                secondNumber = Random.nextInt(1,23)
+            }
+            else -> {
+                firstNumber = Random.nextInt(1,48)
+                secondNumber = Random.nextInt(1,48)
+            }
         }
 
         when (operator) {
@@ -68,13 +77,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun checkAnswer(ans:String):String {
-        if (ans == answer.toString()) {
+        return if (ans == answer.toString()) {
             messageText.setTextColor(Color.GREEN)
-            return "Good"
-        }
-        else {
+            successSound.start()
+            "Good"
+        } else {
             messageText.setTextColor(Color.RED)
-            return "Bad"
+            errorSound.start()
+            "Bad"
         }
     }
 }
