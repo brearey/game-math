@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Суоттаа!</string>
+    <string name="math_example">2 + 2 =</string>
+    <string name="get_calc_task">Вычислите пример:</string>
+    <string name="four_text">4</string>
+    <string name="math_image_text">Картинка математика</string>
+    <string name="question">XX</string>
+</resources>

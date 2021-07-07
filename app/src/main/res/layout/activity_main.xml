@@ -49,11 +49,11 @@
 
     <EditText
         android:id="@+id/answer_et"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_bold"
         android:inputType="number"
-        android:hint="@string/four_text"
+        android:hint="@string/question"
         android:textColor="@color/teal_700"
         android:textSize="64sp"
         android:gravity="center_horizontal"
