@@ -7,7 +7,6 @@ import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import kotlin.random.Random
 
 
@@ -24,12 +23,12 @@ class MainActivity : AppCompatActivity() {
         answerET.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 if (answer in 1..9) {
-                    Log.d("AnswerCheck" ,checkAnswer(answerET.text.toString()))
+                    Log.d("AnswerCheck" ,checkAnswer(answerET.text.toString().trim()))
                     answerET.text.clear()
                     taskText.text = generateTask()
                 }
                 else if (answerET.text.length > 1) {
-                    Log.d("AnswerCheck" ,checkAnswer(answerET.text.toString()))
+                    Log.d("AnswerCheck" ,checkAnswer(answerET.text.toString().trim()))
                     answerET.text.clear()
                     taskText.text = generateTask()
                 }
@@ -43,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     fun generateTask():String {
         val firstNumber:Int
         val secondNumber:Int
-        val operator:String = listOf("+", "-", "*")[Random.nextInt(0, 2)]
+        val operator:String = listOf("+", "-", "*")[Random.nextInt(1, 3)]
         if (operator == "*") {
             firstNumber = Random.nextInt(1,9)
             secondNumber = Random.nextInt(1,9)
