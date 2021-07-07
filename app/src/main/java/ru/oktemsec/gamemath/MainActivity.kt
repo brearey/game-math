@@ -1,5 +1,7 @@
 package ru.oktemsec.gamemath
 
+import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,7 +9,7 @@ import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.util.rangeTo
+import androidx.core.content.ContextCompat
 import kotlin.random.Random
 
 
@@ -21,15 +23,17 @@ class MainActivity : AppCompatActivity() {
         val taskText:TextView = findViewById(R.id.math_task)
         val answerET:EditText = findViewById(R.id.answer_et)
 
+        messageText.text = "Попробуйте вычислить:"
+
         answerET.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
                 if (answer in 1..9 && answerET.text.length == 1) {
-                    Log.d("AnswerCheck" ,checkAnswer(answerET.text.toString().trim()))
+                    messageText.text = checkAnswer(answerET.text.toString().trim())
                     answerET.text.clear()
                     taskText.text = generateTask()
                 }
                 else if (answer >= 10 && answerET.text.length > 1) {
-                    Log.d("AnswerCheck" ,checkAnswer(answerET.text.toString().trim()))
+                    messageText.text = checkAnswer(answerET.text.toString().trim())
                     answerET.text.clear()
                     taskText.text = generateTask()
                 }
@@ -63,15 +67,16 @@ class MainActivity : AppCompatActivity() {
             "*" -> answer = firstNumber * secondNumber
         }
 
-        messageText.text = answer.toString()
         return "$firstNumber $operator $secondNumber ="
     }
 
     fun checkAnswer(ans:String):String {
         if (ans == answer.toString()) {
+            messageText.setTextColor(Color.GREEN)
             return "Good"
         }
         else {
+            messageText.setTextColor(Color.RED)
             return "Bad"
         }
     }
