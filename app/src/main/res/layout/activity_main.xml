@@ -19,6 +19,20 @@
         tools:srcCompat="@drawable/math" />
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scoresTV"
+        android:textSize="24sp"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/green_message"
+        android:text="@string/scores"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@id/image_math"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
         android:id="@+id/message_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,7 +67,6 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_bold"
         android:inputType="number"
-        android:hint="@string/question"
         android:textColor="@color/teal_700"
         android:textSize="54sp"
         android:gravity="center_horizontal"
@@ -61,7 +74,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/math_task"
         app:layout_constraintTop_toBottomOf="@id/message_text"
-        android:autofillHints="no" />
+        android:autofillHints="no"
+        android:labelFor="@id/answer_et"/>
 
     <TextView
         android:layout_width="wrap_content"

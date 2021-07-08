@@ -12,17 +12,20 @@ import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
     private var answer:Int = 0
+    private var scores:Int = 0
     private lateinit var errorSound:MediaPlayer
     private lateinit var successSound:MediaPlayer
     private lateinit var messageText:TextView
     private lateinit var taskText:TextView
     private lateinit var historyText:TextView
+    private lateinit var scoresText:TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         messageText = findViewById(R.id.message_text)
         historyText = findViewById(R.id.historyTV)
+        scoresText = findViewById(R.id.scoresTV)
         taskText = findViewById(R.id.math_task)
         val answerET:EditText = findViewById(R.id.answer_et)
 
@@ -31,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         successSound = MediaPlayer.create(this, R.raw.success)
 
         messageText.text = "Попробуйте вычислить:"
+        scoresText.text = "Очки: 0"
 
         answerET.addTextChangedListener {
             if (answer in 1..9 && answerET.text.length == 1) {
@@ -89,11 +93,17 @@ class MainActivity : AppCompatActivity() {
             messageText.setTextColor(getColor(R.color.green_message))
             successSound.start()
             animateHistoryText()
+            scores++ //Добавляем одно очко
+            addScores()
             listOf("Молодец", "Красавчик", "Ты лучший", "Правильно", "Так держать!", "Верно")[Random.nextInt(1, 6)]
         } else {
             messageText.setTextColor(getColor(R.color.red_message))
             errorSound.start()
             animateHistoryText()
+            ObjectAnimator.ofFloat(messageText, "scaleX", 1f, 1.5f, 1f).apply {
+                duration = 150
+                start()
+            }
             listOf("Вы ошиблись", "Ты идиот?", "Оо, боже", "Не правильно", "Иди в лес", "Нет")[Random.nextInt(1, 6)]
         }
     }
@@ -104,6 +114,14 @@ class MainActivity : AppCompatActivity() {
         AnimatorSet().apply {
             duration = 1000
             playTogether(animAlpha, animY)
+            start()
+        }
+    }
+
+    private fun addScores() {
+        scoresText.text = getString(R.string.scores, scores)
+        ObjectAnimator.ofFloat(scoresText, "scaleX", 1f, 1.5f, 1f).apply {
+            duration = 150
             start()
         }
     }

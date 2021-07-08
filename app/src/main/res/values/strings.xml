@@ -6,4 +6,5 @@
     <string name="math_image_text">Картинка математика</string>
     <string name="question">XX</string>
     <string name="history_text">%1$s %2$s</string>
+    <string name="scores">Очки: %1$d</string>
 </resources>
