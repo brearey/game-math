@@ -63,4 +63,18 @@
         app:layout_constraintTop_toBottomOf="@id/message_text"
         android:autofillHints="no" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/historyTV"
+        android:textSize="42sp"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/black"
+        android:alpha=".3"
+        android:text="@string/math_example"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/math_task"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
