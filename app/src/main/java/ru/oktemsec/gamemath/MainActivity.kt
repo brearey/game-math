@@ -1,11 +1,13 @@
 package ru.oktemsec.gamemath
 
+import android.animation.ObjectAnimator
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
@@ -21,6 +23,13 @@ class MainActivity : AppCompatActivity() {
         messageText = findViewById(R.id.message_text)
         val taskText:TextView = findViewById(R.id.math_task)
         val answerET:EditText = findViewById(R.id.answer_et)
+        val imageMath:ImageView = findViewById(R.id.image_math)
+
+        //Fade in ImageView
+        ObjectAnimator.ofFloat(imageMath, "alpha", 1f, 0f).apply {
+            duration = 1000
+            start()
+        }
 
         //Sounds
         errorSound = MediaPlayer.create(this, R.raw.error)
