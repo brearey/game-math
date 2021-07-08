@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var messageText:TextView
     lateinit var taskText:TextView
     lateinit var historyText:TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -91,12 +92,12 @@ class MainActivity : AppCompatActivity() {
 
     fun checkAnswer(ans:String):String {
         return if (ans == answer.toString()) {
-            messageText.setTextColor(Color.GREEN)
+            messageText.setTextColor(getColor(R.color.green_message))
             successSound.start()
             animateHistoryText()
             listOf("Молодец", "Красавчик", "Ты лучший", "Правильно", "Так держать!", "Верно")[Random.nextInt(1, 6)]
         } else {
-            messageText.setTextColor(Color.RED)
+            messageText.setTextColor(getColor(R.color.red_message))
             errorSound.start()
             animateHistoryText()
             listOf("Вы ошиблись", "Ты идиот?", "Оо, боже", "Не правильно", "Иди в лес", "Нет")[Random.nextInt(1, 6)]
