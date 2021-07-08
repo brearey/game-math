@@ -1,5 +1,6 @@
 package ru.oktemsec.gamemath
 
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.graphics.Color
 import android.media.MediaPlayer
@@ -7,7 +8,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
@@ -17,19 +17,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var errorSound:MediaPlayer
     private lateinit var successSound:MediaPlayer
     lateinit var messageText:TextView
+    lateinit var taskText:TextView
+    lateinit var historyText:TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         messageText = findViewById(R.id.message_text)
-        val taskText:TextView = findViewById(R.id.math_task)
+        historyText = findViewById(R.id.historyTV)
+        taskText = findViewById(R.id.math_task)
         val answerET:EditText = findViewById(R.id.answer_et)
-        val imageMath:ImageView = findViewById(R.id.image_math)
-
-        //Fade in ImageView
-        ObjectAnimator.ofFloat(imageMath, "alpha", 1f, 0f).apply {
-            duration = 1000
-            start()
-        }
 
         //Sounds
         errorSound = MediaPlayer.create(this, R.raw.error)
@@ -41,11 +37,19 @@ class MainActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable) {
                 if (answer in 1..9 && answerET.text.length == 1) {
                     messageText.text = checkAnswer(answerET.text.toString().trim())
+
+                    historyText.setTextColor(messageText.textColors)
+                    historyText.text = getString(R.string.history_text, taskText.text, answerET.text)
+
                     answerET.text.clear()
                     taskText.text = generateTask()
                 }
                 else if (answer >= 10 && answerET.text.length > 1) {
                     messageText.text = checkAnswer(answerET.text.toString().trim())
+
+                    historyText.setTextColor(messageText.textColors)
+                    historyText.text = getString(R.string.history_text, taskText.text, answerET.text)
+
                     answerET.text.clear()
                     taskText.text = generateTask()
                 }
@@ -54,6 +58,7 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
         taskText.text = generateTask()
+        historyText.text = ""
     }
 
     fun generateTask():String {
@@ -88,11 +93,23 @@ class MainActivity : AppCompatActivity() {
         return if (ans == answer.toString()) {
             messageText.setTextColor(Color.GREEN)
             successSound.start()
-            "Good"
+            animateHistoryText()
+            "Молодец"
         } else {
             messageText.setTextColor(Color.RED)
             errorSound.start()
-            "Bad"
+            animateHistoryText()
+            "Вы ошиблись"
+        }
+    }
+    private fun animateHistoryText() {
+        //Fade out and move historyText
+        val animAlpha = ObjectAnimator.ofFloat(historyText, "alpha", 0.8f, 0f)
+        val animY = ObjectAnimator.ofFloat(historyText, "y", taskText.y + taskText.height, taskText.y + taskText.height + 100f)
+        AnimatorSet().apply {
+            duration = 1000
+            playTogether(animAlpha, animY)
+            start()
         }
     }
 }
