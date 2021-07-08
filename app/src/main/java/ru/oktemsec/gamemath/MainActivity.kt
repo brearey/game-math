@@ -2,23 +2,21 @@ package ru.oktemsec.gamemath
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
-    var answer:Int = 0
+    private var answer:Int = 0
     private lateinit var errorSound:MediaPlayer
     private lateinit var successSound:MediaPlayer
-    lateinit var messageText:TextView
-    lateinit var taskText:TextView
-    lateinit var historyText:TextView
+    private lateinit var messageText:TextView
+    private lateinit var taskText:TextView
+    private lateinit var historyText:TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,35 +32,31 @@ class MainActivity : AppCompatActivity() {
 
         messageText.text = "Попробуйте вычислить:"
 
-        answerET.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                if (answer in 1..9 && answerET.text.length == 1) {
-                    messageText.text = checkAnswer(answerET.text.toString().trim())
+        answerET.addTextChangedListener {
+            if (answer in 1..9 && answerET.text.length == 1) {
+                messageText.text = checkAnswer(answerET.text.toString().trim())
 
-                    historyText.setTextColor(messageText.textColors)
-                    historyText.text = getString(R.string.history_text, taskText.text, answerET.text)
+                historyText.setTextColor(messageText.textColors)
+                historyText.text = getString(R.string.history_text, taskText.text, answerET.text)
 
-                    answerET.text.clear()
-                    taskText.text = generateTask()
-                }
-                else if (answer >= 10 && answerET.text.length > 1) {
-                    messageText.text = checkAnswer(answerET.text.toString().trim())
-
-                    historyText.setTextColor(messageText.textColors)
-                    historyText.text = getString(R.string.history_text, taskText.text, answerET.text)
-
-                    answerET.text.clear()
-                    taskText.text = generateTask()
-                }
+                answerET.text.clear()
+                taskText.text = generateTask()
             }
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-        })
+            else if (answer >= 10 && answerET.text.length > 1) {
+                messageText.text = checkAnswer(answerET.text.toString().trim())
+
+                historyText.setTextColor(messageText.textColors)
+                historyText.text = getString(R.string.history_text, taskText.text, answerET.text)
+
+                answerET.text.clear()
+                taskText.text = generateTask()
+            }
+        }
         taskText.text = generateTask()
         historyText.text = ""
     }
 
-    fun generateTask():String {
+    private fun generateTask():String {
         val firstNumber:Int
         val secondNumber:Int
         val operator:String = listOf("+", "-", "*")[Random.nextInt(1, 3)]
@@ -90,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         return "$firstNumber $operator $secondNumber ="
     }
 
-    fun checkAnswer(ans:String):String {
+    private fun checkAnswer(ans:String):String {
         return if (ans == answer.toString()) {
             messageText.setTextColor(getColor(R.color.green_message))
             successSound.start()
