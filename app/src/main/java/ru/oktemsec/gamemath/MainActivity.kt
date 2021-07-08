@@ -94,12 +94,12 @@ class MainActivity : AppCompatActivity() {
             messageText.setTextColor(Color.GREEN)
             successSound.start()
             animateHistoryText()
-            "Молодец"
+            listOf("Молодец", "Красавчик", "Ты лучший", "Правильно", "Так держать!", "Верно")[Random.nextInt(1, 6)]
         } else {
             messageText.setTextColor(Color.RED)
             errorSound.start()
             animateHistoryText()
-            "Вы ошиблись"
+            listOf("Вы ошиблись", "Ты идиот?", "Оо, боже", "Не правильно", "Иди в лес", "Нет")[Random.nextInt(1, 6)]
         }
     }
     private fun animateHistoryText() {
